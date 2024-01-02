@@ -1,0 +1,50 @@
+DROP DATABASE IF EXISTS BookShopDB;
+CREATE DATABASE IF NOT EXISTS BookShopDB;
+USE BookShopDB;
+
+DROP TABLE IF EXISTS Authors;
+CREATE TABLE IF NOT EXISTS Authors (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    firstname VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
+    isMale BOOLEAN NOT NULL DEFAULT True,
+    bdate DATE NOT NULL DEFAULT CURRENT_DATE,
+    deathdate DATE DEFAULT NULL,
+--    CHECK(deathdate > bdate),
+    country CHAR(3) NOT NULL DEFAULT 'ita'
+);
+
+DROP TABLE IF EXISTS Books;
+CREATE TABLE IF NOT EXISTS Books(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    pages INT(3) NOT NULL,
+    isbn CHAR(17) NOT NULL,
+    storyline VARCHAR(255),
+    price DECIMAL(5,3) NOT NULL
+);
+
+DROP TABLE IF EXISTS Genres;
+CREATE TABLE IF NOT EXISTS Genres(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    description VARCHAR(255) NOT NULL
+);
+
+DROP TABLE IF EXISTS genreBook;
+CREATE TABLE IF NOT EXISTS genreBook (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fk_book INT,
+    fk_genre INT,
+    FOREIGN KEY (fk_book) REFERENCES Books(id),
+    FOREIGN KEY (fk_genre) REFERENCES Genres(id)
+);
+
+
+DROP TABLE IF EXISTS authorBook;
+CREATE TABLE IF NOT EXISTS authorBook(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fk_book INT,
+    fk_author INT,
+    FOREIGN KEY (fk_book) REFERENCES Books(id),
+    FOREIGN KEY (fk_author) REFERENCES Authors(id)
+);
